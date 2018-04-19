@@ -40,12 +40,12 @@ def bigstepclose():
 def show():
     print ("left Motor is at", RPL.servoRead(0))
     print ("Right Motor is at", RPL.servoRead(1))
-		
+
 fd = sys.stdin.fileno()
 old_settings = termios.tcgetattr(fd)
 
 def interrupted(signum, frame):
-  	stopAll()
+  stopAll()
 
 signal.signal(signal.SIGALRM, interrupted)
 tty.setraw(sys.stdin.fileno())
@@ -53,17 +53,14 @@ tty.setraw(sys.stdin.fileno())
 print "Ready To Grab! Press * to quit.\r"
 
 SHORT_TIMEOUT = 0.255
-
 while True:
-	signal.setitimer(signal.ITIMER_REAL,SHORT_TIMEOUT)
-	ch = sys.stdin.read(1)
-	signal.setitimer(signal.ITIMER_REAL,0)
-	
-if ch == '*':
-    termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+  signal.setitimer(signal.ITIMER_REAL,SHORT_TIMEOUT)
+  ch = sys.stdin.read(1)
+  signal.setitimer(signal.ITIMER_REAL,0)
+  if ch == '*':
+    termios.tcsetattr(fd, termios.TCSADRAIN, old_settings) # this resets the console settings
     break
-	
-  	else
+  else:
     if ch == 'q':
       open()
     elif ch == 'a':
